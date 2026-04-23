@@ -9,6 +9,7 @@ import ReactFlow, {
   SelectionMode,
   Connection,
   useReactFlow,
+  Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { useStore } from "@/store/useStore";
