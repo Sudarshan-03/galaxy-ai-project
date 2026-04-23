@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model WorkflowRun {
+  id           String          @id @default(cuid())
+  createdAt    DateTime        @default(now())
+  status       String          // 'completed' | 'failed' | 'running'
+  scope        String          // 'single' | 'full' | 'partial'
+  duration     Float?          // Total duration in seconds
+  edges        Json?           // Snapshot of edges at execution time
+  nodesSnapshot Json?          // Snapshot of nodes (positions/types) at execution time
+  executions   NodeExecution[]
+}
+
+model NodeExecution {
+  id           String      @id @default(cuid())
+  run          WorkflowRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  runId        String
+  nodeId       String
+  nodeLabel    String
+  nodeType     String
+  status       String      // 'completed' | 'failed' | 'running'
+  inputs       Json?
+  outputs      Json?
+  error        String?
+  startTime    DateTime    @default(now())
+  endTime      DateTime?
+  duration     Float?      // In seconds
+}
