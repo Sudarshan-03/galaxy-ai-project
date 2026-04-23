@@ -22,7 +22,7 @@ export const useGraphExecution = () => {
     const relevantEdges = edges.filter(e => selectedNodeIds.has(e.source) && selectedNodeIds.has(e.target));
 
     // 2. Phase A: Strict Validation Protocol
-    const latestNodesAtStart = (useStore.getState as any)().nodes;
+    const latestNodesAtStart = useStore.getState().nodes;
     for (const node of selectedNodes) {
       const latestNode = latestNodesAtStart.find((n: any) => n.id === node.id);
       if (!latestNode) continue;
@@ -102,7 +102,7 @@ export const useGraphExecution = () => {
         console.log(`[Execution] Processing Batch ${batchCount}: ${currentBatch.length} node(s)`);
 
         await Promise.all(currentBatch.map(async (nodeId) => {
-          const latestNodes = (useStore.getState as any)().nodes; 
+          const latestNodes = useStore.getState().nodes; 
           const node = latestNodes.find((n: any) => n.id === nodeId);
           if (!node) return;
 

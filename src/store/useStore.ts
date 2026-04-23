@@ -11,9 +11,9 @@ import {
   OnEdgesChange,
   applyNodeChanges,
   applyEdgeChanges,
-  getOutgoers,
 } from 'reactflow';
 import { toast } from 'sonner';
+import { isCircularConnection } from '@/lib/dagUtils';
 
 export type ExecutionStatus = 'idle' | 'waiting' | 'running' | 'completed' | 'error';
 
@@ -57,21 +57,7 @@ export const useStore = create<WorkflowState>()(
     onConnect: (connection: Connection) => {
       const { nodes, edges } = get();
       
-      const target = nodes.find((n) => n.id === connection.target);
-      const source = nodes.find((n) => n.id === connection.source);
-
-      if (!target || !source) return;
-
-      const checkCycle = (node: Node, targetId: string): boolean => {
-        const outgoers = getOutgoers(node, nodes, edges);
-        for (const outgoer of outgoers) {
-          if (outgoer.id === targetId) return true;
-          if (checkCycle(outgoer, targetId)) return true;
-        }
-        return false;
-      };
-
-      if (checkCycle(target, connection.source!)) {
+      if (isCircularConnection(connection.source!, connection.target!, nodes, edges)) {
         toast.error("Circular connection detected", {
           description: "This workflow engine requires a Directed Acyclic Graph (DAG) for correct execution flow.",
           duration: 3000,

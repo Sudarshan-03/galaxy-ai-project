@@ -1,4 +1,5 @@
-import { Connection, Node } from "reactflow";
+import { Connection, Node, Edge } from "reactflow";
+import { isCircularConnection } from "./dagUtils";
 
 export type HandleDataType = "image" | "video" | "text" | "number" | "unknown";
 
@@ -39,24 +40,11 @@ export const getHandleType = (nodeType: string, handleId: string): HandleDataTyp
   return "unknown";
 };
 
-/**
- * Detects if adding an edge would create a cycle.
- */
-const hasCycle = (targetId: string, sourceId: string, edges: any[]): boolean => {
-  if (targetId === sourceId) return true;
-  
-  const targetOutgoers = edges.filter(e => e.source === targetId);
-  for (const edge of targetOutgoers) {
-    if (edge.target === sourceId) return true;
-    if (hasCycle(edge.target, sourceId, edges)) return true;
-  }
-  return false;
-};
 
 /**
  * Validates if a connection is allowed between two handles.
  */
-export const isValidHandleConnection = (connection: any, nodes: Node[], edges?: any[]): boolean => {
+export const isValidHandleConnection = (connection: any, nodes: Node[], edges: Edge[] = []): boolean => {
   const { source, target, sourceHandle, targetHandle } = connection;
   const sourceNode = nodes.find((n) => n.id === source);
   const targetNode = nodes.find((n) => n.id === target);
@@ -66,7 +54,7 @@ export const isValidHandleConnection = (connection: any, nodes: Node[], edges?: 
   }
 
   // logic check: cycle detection
-  if (edges && hasCycle(target, source, edges)) {
+  if (isCircularConnection(source, target, nodes, edges)) {
     return false;
   }
 
