@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "DM Sans", var(--font-geist-sans);
+  --font-mono: "DM Mono", var(--font-geist-mono);
+  
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-sidebar: var(--sidebar-bg);
+  --color-sidebar-foreground: #ffffff;
+  --color-sidebar-border: var(--border);
+
+  /* Minimalist Node Themes */
+  --color-node-prompt-bg: #111111;
+  --color-node-prompt-stroke: #2a2a2a;
+  
+  --color-node-model-bg: #111111;
+  --color-node-model-stroke: #2a2a2a;
+  
+  --color-node-media-bg: #111111;
+  --color-node-media-stroke: #2a2a2a;
+  
+  --color-node-orange-bg: #111111;
+  --color-node-orange-stroke: #2a2a2a;
+
+  --color-black-100: #0a0a0a;
+  --color-black-92: #121212;
+  --color-black-84: #171717;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #121212;
+  --card-foreground: #ffffff;
+  --popover: #121212;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #171717;
+  --muted-foreground: #a1a1aa;
+  --accent: #2a2a2a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #ffffff;
+  --sidebar-bg: #0a0a0a;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: inherit;
+  }
+}
+
+@layer utilities {
+  .wea-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .wea-no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .media-checkerboard {
+    background-image: repeating-conic-gradient(
+      #171717 0% 25%,
+      #121212 25% 50%,
+      #171717 50% 75%,
+      #121212 75% 100%
+    );
+    background-size: 16px 16px;
+  }
+
+  /* Minimalist blurs rather than heavy tint */
+  .glass-blur {
+    backdrop-filter: blur(8px);
+    background: rgba(10, 10, 10, 0.7);
+  }
+
+  .workflow-canvas-hover .react-flow__pane:hover {
+    cursor: crosshair;
+  }
+
+  .workflow-canvas-hover .react-flow__pane.dragging {
+    cursor: grabbing;
+  }
+}
+
+/* React Flow Overrides (Minimalist) */
+.react-flow__background {
+  background-color: var(--background);
+}
+
+.react-flow__selection {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: #000000 !important;
+  border: 1px solid #ffffff !important;
+  border-radius: 50% !important;
+  transition: transform 0.2s;
+  z-index: 10;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.2);
+}
+
+.react-flow__edge-path {
+  stroke-width: 1.5 !important;
+  opacity: 0.5;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  opacity: 1;
+}
+
+/* Minimalist node states */
+.node-executing {
+  border: 1px solid #ffffff !important;
+  transition: all 0.2s ease;
+}
+
+.node-completed {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.node-error {
+  border: 1px solid #ef4444 !important;
+}
+
+/* Landing Page Overrides and Utilities */
+.landing-page {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  width: 100% !important;
+  min-height: 100vh;
+  position: relative;
+}
+
+.blueprint-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.premium-button {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.premium-button:hover {
+  background-color: #e5e5e5;
+  transform: translateY(-1px);
+}
+
+.ghost-button {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.ghost-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.node-card {
+  background: rgba(18, 18, 18, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.node-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
