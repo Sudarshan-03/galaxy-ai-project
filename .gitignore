@@ -58,12 +58,7 @@ next-env.d.ts
 .idea/
 
 # OS files
-.DS_Store
 Thumbs.db
 
-# hero assets
-/hero-assets
-
-workflowpage.css
 # clerk configuration (can include secrets)
 /.clerk/
