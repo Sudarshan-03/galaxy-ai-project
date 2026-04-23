@@ -45,9 +45,6 @@ export async function POST(request: Request) {
   }
 }
 
-// We also need a way to poll for the result in this simple setup
-// Or we can just return the handle and let the frontend poll if we had a polling endpoint.
-// Actually, let's keep it simple: the frontend will trigger and then we might need a status endpoint.
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const handleId = searchParams.get("handleId");

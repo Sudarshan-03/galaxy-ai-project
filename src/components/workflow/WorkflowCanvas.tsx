@@ -7,10 +7,8 @@ import ReactFlow, {
   MiniMap,
   Panel,
   SelectionMode,
-  ReactFlowProvider,
   Connection,
   useReactFlow,
-  Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { useStore } from "@/store/useStore";
@@ -27,6 +25,7 @@ import {
 import { nodeTypes, edgeTypes } from "./nodeTypes";
 import { ZoomDropdown } from "./ZoomDropdown";
 import { isCircularConnection } from "@/lib/dagUtils";
+import { isValidHandleConnection } from "@/lib/validationUtils";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useSidebar } from "@/components/ui/sidebar";
@@ -122,7 +121,6 @@ function WorkflowCanvasInner() {
     }
 
     // 2. Unified Type-Safety & Structural Validation
-    const { isValidHandleConnection } = require("@/lib/validationUtils");
     const isValid = isValidHandleConnection(connection, nodes, edges);
 
     if (!isValid) {
@@ -338,9 +336,5 @@ function WorkflowCanvasInner() {
 }
 
 export function WorkflowCanvas() {
-  return (
-    <ReactFlowProvider>
-      <WorkflowCanvasInner />
-    </ReactFlowProvider>
-  );
+  return <WorkflowCanvasInner />;
 }

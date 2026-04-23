@@ -57,7 +57,6 @@ export const useStore = create<WorkflowState>()(
     onConnect: (connection: Connection) => {
       const { nodes, edges } = get();
       
-      // Basic cycle detection (will be refined in UI with toast)
       const target = nodes.find((n) => n.id === connection.target);
       const source = nodes.find((n) => n.id === connection.source);
 
@@ -124,7 +123,6 @@ export const useStore = create<WorkflowState>()(
       set({
         nodes: get().nodes.map((node) => {
           if (node.id === nodeId) {
-            // If explicitly false, we unlock (true). Otherwise we lock (false).
             return { ...node, draggable: node.draggable === false ? true : false };
           }
           return node;
@@ -177,7 +175,6 @@ export const useStore = create<WorkflowState>()(
     isHistoryOpen: false,
     setHistoryOpen: (open: boolean) => set({ isHistoryOpen: open }),
     
-    // Data Portability
     exportSelectedNodes: () => {
       const { nodes, edges } = get();
       const selectedNodes = nodes.filter(n => n.selected);
@@ -218,7 +215,6 @@ export const useStore = create<WorkflowState>()(
 
         const { nodes: currentNodes, edges: currentEdges } = get();
         
-        // Offset imported nodes to avoid direct overlap and give them new IDs
         const idMap: Record<string, string> = {};
         const timestamp = Date.now();
         
